@@ -1,0 +1,7 @@
+/home/andrii/DoubleCrystalSPS/RomanPot0/build/CMakeFiles/install/strip.dir
+/home/andrii/DoubleCrystalSPS/RomanPot0/build/CMakeFiles/install/local.dir
+/home/andrii/DoubleCrystalSPS/RomanPot0/build/CMakeFiles/install.dir
+/home/andrii/DoubleCrystalSPS/RomanPot0/build/CMakeFiles/list_install_components.dir
+/home/andrii/DoubleCrystalSPS/RomanPot0/build/CMakeFiles/rebuild_cache.dir
+/home/andrii/DoubleCrystalSPS/RomanPot0/build/CMakeFiles/edit_cache.dir
+/home/andrii/DoubleCrystalSPS/RomanPot0/build/CMakeFiles/romanpot0.dir
