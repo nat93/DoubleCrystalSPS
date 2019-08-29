@@ -65,7 +65,7 @@
 using namespace std;
 
 void function_1(TString output_file_name);
-void function_2(TString output_file_name);
+void function_2(TString input_file_name, TString output_file_name);
 
 void passMagnets(Double_t s, Double_t* coord_x0, Double_t* coord_x, Double_t p, Double_t Charge_C, TGraph* gr_x, TGraph* gr_y, TGraph *gr_xp, TGraph *gr_yp, Bool_t print);
 Double_t getGamma(Double_t mass, Double_t pmag);
@@ -73,15 +73,15 @@ Double_t getBeta(Double_t gamma);
 
 Int_t main(int argc, char* argv[])
 {
-    if(argc == 3)
+    if(argc == 4)
     {
-        switch ( atoi(argv[2]) )
+        switch ( atoi(argv[3]) )
         {
         case 1:
-          function_1(argv[1]);
+          function_1(argv[2]);
           break;
         case 2:
-          function_2(argv[1]);
+          function_2(argv[1],argv[2]);
           break;
         default:
           cout<<"--> Nothing to do =)"<<endl;
@@ -96,8 +96,9 @@ Int_t main(int argc, char* argv[])
         cout<<endl;
         cout<<"--> ERROR:: Wrong imput parameters number:"<<endl<<
               "--> [0] -- script name"<<endl<<
-              "--> [1] -- output filename"<<endl<<
-              "--> [2] -- function id"<<endl;
+              "--> [1] -- input filename"<<endl<<
+              "--> [2] -- output filename"<<endl<<
+              "--> [3] -- function id"<<endl;
         return -1;
 
     }
@@ -149,7 +150,7 @@ void function_1(TString output_file_name)
     cout<<"--> Output file: "<<output_file_name<<endl;
 }
 
-void function_2(TString output_file_name)
+void function_2(TString input_file_name, TString output_file_name)
 {
     //-----------------------------------------//
     // Read file
@@ -238,7 +239,7 @@ void function_2(TString output_file_name)
 
     TChain* fChain = new TChain("Tree_1");
 
-    fChain->Add("/media/andrii/F492773C92770302/DoubleCrystalSPS_DATA/output_crystal1_accelerator1_rp0.root");
+    fChain->Add(input_file_name.Data());
 
     fChain->SetBranchAddress("EventID",   &_Event_ID);
     fChain->SetBranchAddress("X",         &_X);

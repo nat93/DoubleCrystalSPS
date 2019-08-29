@@ -27,8 +27,36 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     G4NistManager* nistManager = G4NistManager::Instance();
 
 //    G4Material* AIR         = nistManager->FindOrBuildMaterial("G4_AIR");
-    G4Material* TUNGSTEN    = nistManager->FindOrBuildMaterial("G4_W");
-    G4Material* VACUUM      = nistManager->FindOrBuildMaterial("G4_Galactic");
+    G4Material* TUNGSTEN	= nistManager->FindOrBuildMaterial("G4_W");
+    G4Material* COPPER	    	= nistManager->FindOrBuildMaterial("G4_Cu");
+    G4Material* SILICON    	= nistManager->FindOrBuildMaterial("G4_Si");
+    G4Material* VACUUM      	= nistManager->FindOrBuildMaterial("G4_Galactic");
+    G4Material* SSTEEL      	= nistManager->FindOrBuildMaterial("G4_STAINLESS-STEEL");
+
+    G4int nComponents; 		// Number of components
+    G4int nAtoms; 		//Number of atoms
+    G4double fractionmass; 	// Fraction in mass of an element in a material
+    G4bool isotopes = false;
+
+    G4Element* oxygenNist 	= nistManager->FindOrBuildElement("O",isotopes);
+    G4Element* hydrogenNist 	= nistManager->FindOrBuildElement("H",isotopes);
+    G4Element* silicNist 	= nistManager->FindOrBuildElement("Si",isotopes);
+    G4Element* carbonNist       = nistManager->FindOrBuildElement("C",isotopes);
+
+    //Quartz
+    G4Material* SiO2 = new G4Material("Quartz", 2.200*g/cm3, nComponents=2);
+    SiO2->AddElement(silicNist, nAtoms=1);
+    SiO2->AddElement(oxygenNist , nAtoms=2);
+
+    //Epoxy (for FR4 )
+    G4Material* Epoxy = new G4Material("Epoxy" , 1.2*g/cm3, nComponents=2);
+    Epoxy->AddElement(hydrogenNist, nAtoms=2);
+    Epoxy->AddElement(carbonNist, nAtoms=2);
+
+    //FR4 (Glass + Epoxy)
+    G4Material* FR4 = new G4Material("FR4"  , 1.86*g/cm3, nComponents=2);
+    FR4->AddMaterial(SiO2, fractionmass=0.528);
+    FR4->AddMaterial(Epoxy, fractionmass=0.472);
 
     // WORLD
     G4Box* world_box = new G4Box("world",
@@ -38,17 +66,119 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     G4LogicalVolume* world_log = new G4LogicalVolume(world_box, VACUUM, "world");
     G4VPhysicalVolume* world_phys = new G4PVPlacement(0, G4ThreeVector(0.,0.,0.), world_log, "world", 0, false, 0);
 
-    // RomanPot0
-    G4Box* rp0_box = new G4Box("target",
-                                      Constants::rp0_dim_x/2,
-                                      Constants::rp0_dim_y/2,
-                                      Constants::rp0_dim_z/2);
-    G4LogicalVolume* rp0_log = new G4LogicalVolume(rp0_box, TUNGSTEN, "target");
-    new G4PVPlacement(0,G4ThreeVector(Constants::rp0_pos_x-Constants::rp0_dim_x/2,
-                                      Constants::rp0_pos_y,
-                                      Constants::rp0_pos_z),rp0_log, "septum", world_log, false, 0);
+    if(Constants::rp0_type == 1)
+    {
+    	G4Box* rp0_box = new G4Box("rp0_box",
+        	                              Constants::rp0_dim_x/2,
+                	                      Constants::rp0_dim_y/2,
+                        	              Constants::rp0_dim_z/2);
+   	G4LogicalVolume* rp0_log = new G4LogicalVolume(rp0_box, TUNGSTEN, "rp0_box");
+    	new G4PVPlacement(0,G4ThreeVector(Constants::rp0_pos_x-Constants::rp0_dim_x/2,
+        	                              Constants::rp0_pos_y,
+                	                      Constants::rp0_pos_z),rp0_log, "rp0_box", world_log, false, 0);
 
-    rp0_log->SetVisAttributes(G4VisAttributes(G4Color::Brown()));
+    	rp0_log->SetVisAttributes(G4VisAttributes(G4Color::Brown()));
+    }
+
+    if(Constants::rp0_type == 2)
+    {
+	// ROMANPOT WINDOW
+        G4Box* rp0_wind_box = new G4Box("rp0_window",
+                                             	Constants::rp0_dim_x/2,
+                                              	Constants::rp0_dim_y/2,
+                                              	Constants::rp0_window_dim_z/2);
+        G4LogicalVolume* rp0_wind_log = new G4LogicalVolume(rp0_wind_box, SSTEEL, "rp0_window");
+        new G4PVPlacement(0,G4ThreeVector(Constants::rp0_pos_x-Constants::rp0_dim_x/2,
+						Constants::rp0_pos_y,
+                                              	-(2*Constants::rp0_window_dim_z+
+						Constants::tpx_fr4_dim_z+
+						Constants::tpx_pcb_dim_z+
+						Constants::tpx_chip_dim_z+
+						Constants::tpx_sensor_dim_z)/2.0+
+						Constants::rp0_window_dim_z/2),rp0_wind_log, "rp0_window1", world_log, false, 0);
+        new G4PVPlacement(0,G4ThreeVector(Constants::rp0_pos_x-Constants::rp0_dim_x/2,
+                                                Constants::rp0_pos_y,
+                                                (2*Constants::rp0_window_dim_z+
+                                   		Constants::tpx_fr4_dim_z+
+						Constants::tpx_pcb_dim_z+
+                                                Constants::tpx_chip_dim_z+
+                                                Constants::tpx_sensor_dim_z)/2.0-
+                                                Constants::rp0_window_dim_z/2),rp0_wind_log, "rp0_window2", world_log, false, 0);
+        rp0_wind_log->SetVisAttributes(G4VisAttributes(G4Color::Brown()));
+
+        // TIMEPIX SENSOR
+        G4Box* tpx_sensor_box = new G4Box("tpx_sensor",
+                                                Constants::rp0_dim_x/2,
+                                                Constants::rp0_dim_y/2,
+                                                Constants::tpx_sensor_dim_z/2);
+        G4LogicalVolume* tpx_sensor_log = new G4LogicalVolume(tpx_sensor_box, SILICON, "tpx_sensor");
+        new G4PVPlacement(0,G4ThreeVector(Constants::rp0_pos_x-Constants::rp0_dim_x/2,
+                                                Constants::rp0_pos_y,
+                                                -(2*Constants::rp0_window_dim_z+
+						Constants::tpx_fr4_dim_z+
+                                                Constants::tpx_pcb_dim_z+
+                                                Constants::tpx_chip_dim_z+
+                                                Constants::tpx_sensor_dim_z)/2.0+
+                                                Constants::rp0_window_dim_z+
+						Constants::tpx_sensor_dim_z/2),tpx_sensor_log, "tpx_sensor", world_log, false, 0);
+        tpx_sensor_log->SetVisAttributes(G4VisAttributes(G4Color::Blue()));
+
+        // TIMEPIX CHIP
+        G4Box* tpx_chip_box = new G4Box("tpx_chip",
+                                                Constants::rp0_dim_x/2,
+                                                Constants::rp0_dim_y/2,
+                                                Constants::tpx_chip_dim_z/2);
+        G4LogicalVolume* tpx_chip_log = new G4LogicalVolume(tpx_chip_box, SILICON, "tpx_chip");
+        new G4PVPlacement(0,G4ThreeVector(Constants::rp0_pos_x-Constants::rp0_dim_x/2,
+                                                Constants::rp0_pos_y,
+                                                -(2*Constants::rp0_window_dim_z+
+                                   		Constants::tpx_fr4_dim_z+
+                                                Constants::tpx_pcb_dim_z+
+                                                Constants::tpx_chip_dim_z+
+                                                Constants::tpx_sensor_dim_z)/2.0+
+                                                Constants::rp0_window_dim_z+
+                                                Constants::tpx_sensor_dim_z+
+						Constants::tpx_chip_dim_z/2),tpx_chip_log, "tpx_chip", world_log, false, 0);
+        tpx_chip_log->SetVisAttributes(G4VisAttributes(G4Color::Yellow()));
+
+	// TIMEPIX PCB
+	G4Box* tpx_pcb_box = new G4Box("tpx_pcb",
+                                                Constants::rp0_dim_x/2,
+                                                Constants::rp0_dim_y/2,
+                                                Constants::tpx_pcb_dim_z/2);
+        G4LogicalVolume* tpx_pcb_log = new G4LogicalVolume(tpx_pcb_box, COPPER, "tpx_pcb");
+        new G4PVPlacement(0,G4ThreeVector(Constants::rp0_pos_x-Constants::rp0_dim_x/2,
+                                                Constants::rp0_pos_y,
+                                                -(2*Constants::rp0_window_dim_z+
+                                   		Constants::tpx_fr4_dim_z+
+                                                Constants::tpx_pcb_dim_z+
+                                                Constants::tpx_chip_dim_z+
+                                                Constants::tpx_sensor_dim_z)/2.0+
+                                                Constants::rp0_window_dim_z+
+                                                Constants::tpx_sensor_dim_z+
+                                                Constants::tpx_chip_dim_z+
+						Constants::tpx_pcb_dim_z/2),tpx_pcb_log, "tpx_pcb", world_log, false, 0);
+        tpx_pcb_log->SetVisAttributes(G4VisAttributes(G4Color::Red()));
+        // TIMEPIX FR4
+        G4Box* tpx_fr4_box = new G4Box("tpx_fr4",
+                                                Constants::rp0_dim_x/2,
+                                                Constants::rp0_dim_y/2,
+                                                Constants::tpx_fr4_dim_z/2);
+        G4LogicalVolume* tpx_fr4_log = new G4LogicalVolume(tpx_fr4_box, FR4, "tpx_fr4");
+        new G4PVPlacement(0,G4ThreeVector(Constants::rp0_pos_x-Constants::rp0_dim_x/2,
+                                                Constants::rp0_pos_y,
+                                                -(2*Constants::rp0_window_dim_z+
+						Constants::tpx_fr4_dim_z+
+                                                Constants::tpx_pcb_dim_z+
+                                                Constants::tpx_chip_dim_z+
+                                                Constants::tpx_sensor_dim_z)/2.0+
+                                                Constants::rp0_window_dim_z+
+                                                Constants::tpx_sensor_dim_z+
+                                                Constants::tpx_chip_dim_z+
+                                                Constants::tpx_pcb_dim_z+
+                                                Constants::tpx_fr4_dim_z/2),tpx_fr4_log, "tpx_fr4", world_log, false, 0);
+        tpx_fr4_log->SetVisAttributes(G4VisAttributes(G4Color::Green()));
+    }
 
     // PHANTOM SENSITIVE PLANE
     G4Box* phantom_box = new G4Box("phantom",

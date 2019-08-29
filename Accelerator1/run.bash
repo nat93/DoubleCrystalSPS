@@ -4,7 +4,7 @@
 
 make clean; make -j2;
 
-outputRootFile="/media/andrii/F492773C92770302/DoubleCrystalSPS_DATA/output_crystal1_accelerator1.root"
+outputRootFile="~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1.root"
 
 ./accelerator $outputRootFile 2
 

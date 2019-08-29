@@ -95,7 +95,7 @@ fWorldLogic(0),fXtalLogic(0){
     bBeamPipe = false;
     fBeamPipeThickness = (0.3) * CLHEP::centimeter;
     fBeamPipeRadius = (15.6) * CLHEP::centimeter;
-    bXtal = true;
+    bXtal = false; //true;
 
     //====================================================================//
     // 2018 //

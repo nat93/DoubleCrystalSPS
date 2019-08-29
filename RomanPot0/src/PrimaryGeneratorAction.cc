@@ -100,7 +100,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
             fParticleGun->SetParticleDefinition(particle);
             fParticleGun->SetParticleEnergy(Ekin*CLHEP::GeV);
             fParticleGun->SetParticleMomentumDirection(G4ThreeVector(_Mom_X/_Mom,_Mom_Y/_Mom,_Mom_Z/_Mom));
-            fParticleGun->SetParticlePosition(G4ThreeVector(_X*CLHEP::m,_Y*CLHEP::m,(-0.007)*CLHEP::m));
+            fParticleGun->SetParticlePosition(G4ThreeVector(_X*CLHEP::m,_Y*CLHEP::m,Constants::beam_pos_z));
 
             fParticleGun->GeneratePrimaryVertex(anEvent);
         }

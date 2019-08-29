@@ -1,8 +1,8 @@
-/home/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/install/strip.dir
-/home/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/install/local.dir
-/home/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/rebuild_cache.dir
-/home/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/edit_cache.dir
-/home/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/channeling_custom.dir
-/home/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/install.dir
-/home/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/list_install_components.dir
-/home/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/channeling.dir
+/home/gred/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/edit_cache.dir
+/home/gred/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/rebuild_cache.dir
+/home/gred/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/install/local.dir
+/home/gred/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/install/strip.dir
+/home/gred/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/channeling_custom.dir
+/home/gred/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/list_install_components.dir
+/home/gred/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/install.dir
+/home/gred/andrii/DoubleCrystalSPS/Crystal2/build/CMakeFiles/channeling.dir

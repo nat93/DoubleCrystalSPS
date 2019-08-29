@@ -172,7 +172,23 @@ void function_2(TString output_file_name)
 
     TChain* fChain = new TChain("Tree_2");
 
-    fChain->Add("/media/andrii/F492773C92770302/DoubleCrystalSPS_DATA/output_crystal1_accelerator1_rp0_accelerator2_crystal2_0.root");
+    TString inputfileName;
+    for(Int_t i = 0; i < 20; i++)
+    {
+//	inputfileName = "~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1_rp0_null_accelerator2_crystal2_";
+//	inputfileName = "~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1_rp0_simple_accelerator2_crystal2_";
+//	inputfileName = "~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1_rp0_layers_accelerator2_crystal2_";
+
+//	inputfileName = "~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1_rp0_null_accelerator2_crystal2_null_";
+//	inputfileName = "~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1_rp0_simple_accelerator2_crystal2_null_";
+	inputfileName = "~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1_rp0_layers_accelerator2_crystal2_null_";
+
+	inputfileName += i;
+	inputfileName += ".root";
+	cout<<"filename: "<<inputfileName<<endl;
+
+    	fChain->Add(inputfileName.Data());
+ }
 
     fChain->SetBranchAddress("EventID",   &_Event_ID);
     fChain->SetBranchAddress("X",         &_X);

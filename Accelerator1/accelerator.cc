@@ -238,7 +238,26 @@ void function_2(TString output_file_name)
 
     TChain* fChain = new TChain("Tree_1");
 
-    fChain->Add("/media/andrii/F492773C92770302/DoubleCrystalSPS_DATA/output_crystal1.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_0.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_1.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_2.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_3.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_4.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_5.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_6.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_7.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_8.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_9.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_10.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_11.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_12.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_13.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_14.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_15.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_16.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_17.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_18.root");
+    fChain->Add("~/home2/DoubleCrystalSPSsimData/output_crystal1_19.root");
 
     fChain->SetBranchAddress("EventID",   &_Event_ID);
     fChain->SetBranchAddress("X",         &_X);

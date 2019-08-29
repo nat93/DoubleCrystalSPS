@@ -1,6 +1,14 @@
 #!/bin/bash
 
-inputRootFile="/media/andrii/F492773C92770302/DoubleCrystalSPS_DATA/output_crystal1_accelerator1.root"
-outputRootFile="/media/andrii/F492773C92770302/DoubleCrystalSPS_DATA/output_crystal1_accelerator1_rp0.root";
+inputRootFile="~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1.root"
+
+## without RP0
+outputRootFile="~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1_rp0_null.root"
+
+## with RP0 plate of W
+#outputRootFile="~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1_rp0_simple.root"
+
+## with RP0 layers structure
+#outputRootFile="~/home2/DoubleCrystalSPSsimData/output_crystal1_accelerator1_rp0_layers.root"
 
 ./romanpot0 run.mac $inputRootFile $outputRootFile
